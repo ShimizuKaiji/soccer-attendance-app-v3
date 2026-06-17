@@ -3,36 +3,36 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>サッカーチーム出欠管理アプリ v3</title>
+  <title>サッカーチーム出欠管理アプリ v4</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <div class="app">
     <header>
-      <h1>サッカーチーム出欠管理 v3</h1>
+      <h1>サッカーチーム出欠管理 v4</h1>
       <p>日付ごとに出欠を分けて，毎日の練習・試合ごとに管理できます．</p>
     </header>
 
     <section class="form-area">
       <h2>日付・活動内容</h2>
-      <p class="notice">v3では，日付ごとに出欠一覧を分けて表示します．別の日を選ぶと，その日の出欠だけを確認できます．</p>
+      <p class="notice">v4では，日付ごとに出欠一覧を分けて表示します．別の日を選ぶと，その日の出欠だけを確認できます．</p>
 
       <input type="date" id="dateInput">
       <input type="text" id="activityInput" placeholder="活動内容を入力（例：練習，試合，練習試合）">
     </section>
 
     <section class="summary">
-      <div class="card">
+      <div class="card present">
         <span>出席</span>
         <strong id="presentCount">0</strong>
       </div>
-      <div class="card">
-        <span>欠席</span>
-        <strong id="absentCount">0</strong>
-      </div>
-      <div class="card">
+      <div class="card late">
         <span>遅刻</span>
         <strong id="lateCount">0</strong>
+      </div>
+      <div class="card absent">
+        <span>欠席</span>
+        <strong id="absentCount">0</strong>
       </div>
     </section>
 

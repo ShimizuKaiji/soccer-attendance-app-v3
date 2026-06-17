@@ -47,7 +47,12 @@ header p {
   padding: 18px;
   text-align: center;
   box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  border-top: 5px solid #ccc;
 }
+
+.card.present { border-top-color: #1f8f4d; }
+.card.late    { border-top-color: #f39c12; }
+.card.absent  { border-top-color: #e74c3c; }
 
 .card span {
   display: block;
@@ -58,8 +63,12 @@ header p {
 .card strong {
   display: block;
   margin-top: 8px;
-  font-size: 28px;
+  font-size: 32px;
 }
+
+.card.present strong { color: #1f8f4d; }
+.card.late    strong { color: #f39c12; }
+.card.absent  strong { color: #e74c3c; }
 
 .form-area,
 .list-area {
@@ -112,13 +121,46 @@ ul {
   list-style: none;
 }
 
+/* グループヘッダー */
+.group-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 16px 0 8px;
+  font-size: 15px;
+  font-weight: bold;
+  color: #444;
+}
+
+.group-header::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: #ddd;
+}
+
+.group-header .group-badge {
+  padding: 3px 12px;
+  border-radius: 20px;
+  font-size: 13px;
+  color: white;
+}
+
+.group-header.present .group-badge { background: #1f8f4d; }
+.group-header.late    .group-badge { background: #f39c12; }
+.group-header.absent  .group-badge { background: #e74c3c; }
+
 li {
   background: #f7f9fa;
   padding: 14px;
   border-radius: 12px;
-  margin-bottom: 10px;
-  border-left: 6px solid #1f8f4d;
+  margin-bottom: 8px;
+  border-left: 6px solid #ccc;
 }
+
+li.present { border-left-color: #1f8f4d; background: #f0faf4; }
+li.late    { border-left-color: #f39c12; background: #fffbf0; }
+li.absent  { border-left-color: #e74c3c; background: #fff5f5; }
 
 .item-top {
   display: flex;
@@ -126,9 +168,19 @@ li {
   align-items: center;
 }
 
-.status {
+.status-badge {
+  display: inline-block;
+  padding: 2px 10px;
+  border-radius: 20px;
+  font-size: 12px;
   font-weight: bold;
+  color: white;
+  margin-left: 8px;
 }
+
+.status-badge.present { background: #1f8f4d; }
+.status-badge.late    { background: #f39c12; }
+.status-badge.absent  { background: #e74c3c; }
 
 .delete-btn {
   width: auto;

@@ -42,7 +42,7 @@ dateInput.value = today;
 // 日付ごとの保存場所を作る
 function getAttendanceRef() {
   const selectedDate = dateInput.value;
-  return ref(db, `attendance_v3/${selectedDate}`);
+  return ref(db, `attendance_v4/${selectedDate}`);
 }
 
 // 一覧タイトルを更新する
@@ -116,23 +116,42 @@ function subscribeAttendance() {
 
     attendanceList.innerHTML = "";
 
-    const attendanceData = [];
+    const groups = { 出席: [], 遅刻: [], 欠席: [] };
 
     if (data) {
       const entries = Object.entries(data);
-
       entries.sort((a, b) => b[1].createdAt - a[1].createdAt);
-
       entries.forEach(([id, item]) => {
-        attendanceData.push(item);
+        if (groups[item.status]) groups[item.status].push({ id, item });
+      });
+    }
+
+    const groupConfig = [
+      { key: "出席", cls: "present" },
+      { key: "遅刻", cls: "late" },
+      { key: "欠席", cls: "absent" },
+    ];
+
+    const allItems = [];
+
+    groupConfig.forEach(({ key, cls }) => {
+      const entries = groups[key];
+
+      const header = document.createElement("div");
+      header.className = `group-header ${cls}`;
+      header.innerHTML = `<span class="group-badge">${key} ${entries.length}人</span>`;
+      attendanceList.appendChild(header);
+
+      entries.forEach(({ id, item }) => {
+        allItems.push(item);
 
         const li = document.createElement("li");
-
+        li.className = cls;
         li.innerHTML = `
           <div class="item-top">
             <div>
               <strong>${item.name}</strong>
-              <span class="status">：${item.status}</span>
+              <span class="status-badge ${cls}">${item.status}</span>
             </div>
             <button class="delete-btn" data-id="${id}">削除</button>
           </div>
@@ -141,12 +160,11 @@ function subscribeAttendance() {
             コメント：${item.comment || "コメントなし"}
           </div>
         `;
-
         attendanceList.appendChild(li);
       });
-    }
+    });
 
-    updateCount(attendanceData);
+    updateCount(allItems);
   });
 }
 
@@ -163,7 +181,7 @@ attendanceList.addEventListener("click", async (event) => {
     const id = event.target.dataset.id;
 
     try {
-      await remove(ref(db, `attendance_v3/${dateInput.value}/${id}`));
+      await remove(ref(db, `attendance_v4/${dateInput.value}/${id}`));
     } catch (error) {
       console.error("削除エラー:", error);
       alert("削除に失敗しました");
